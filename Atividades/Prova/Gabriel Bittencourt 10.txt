@@ -1,0 +1,3 @@
+Resposta melhorada da questão 10:
+
+O código é um exemplo de agregação, pois o item está sendo adicionado à classe, fazendo parte dela, mas não é totalmente dependente, não sendo destruído junto a ela se for o caso.
