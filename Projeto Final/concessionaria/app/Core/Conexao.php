@@ -19,8 +19,8 @@ class Conexao {
             try {
                 $dsn = 'mysql:host=' . self::DB_CONFIG['host'] . ';dbname=' . self::DB_CONFIG['dbname'] . ';charset=utf8';
                 self::$instancia = new PDO($dsn, self::DB_CONFIG['user'], self::DB_CONFIG['pass'], [
-                    [cite_start]PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Configura para lançar exceções em caso de erro [cite: 1617]
-                    [cite_start]PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, // Define o modo de busca padrão para objetos [cite: 1618, 1687]
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Configura para lançar exceções em caso de erro [cite: 1617]
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, // Define o modo de busca padrão para objetos [cite: 1618, 1687]
                 ]);
             } catch (PDOException $e) {
                 // Em um ambiente real, você logaria o erro.

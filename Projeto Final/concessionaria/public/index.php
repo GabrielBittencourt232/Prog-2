@@ -8,7 +8,7 @@ ini_set('display_errors', 1);
 spl_autoload_register(function($class) {
     // Converte namespace\Classe para path/to/Classe.php
     $file = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-    $path = '../' . $file;
+    $path = '../app/' . $file;
     if (file_exists($path)) {
         require_once $path;
     }

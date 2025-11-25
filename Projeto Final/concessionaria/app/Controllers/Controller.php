@@ -6,5 +6,10 @@ class Controller {
     public function view(string $viewPath, array $data = []): void {
         extract($data); // Transforma as chaves do array $data em variáveis locais
         require_once "../app/Views/$viewPath.php";
+
+        $content = ob_get_clean(); 
+        
+        // Carrega o Layout Base, injetando o conteúdo capturado na variável $content
+        require_once "../app/Views/layouts/master.php";
     }
 }

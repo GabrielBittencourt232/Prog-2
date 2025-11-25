@@ -3,16 +3,16 @@
 use Models\Veiculo;
 use Exception;
 
-[cite_start]// [Conceito POO: Herança - VeiculoController herda funcionalidades da classe base Controller] [cite: 3477]
-class VeiculoController extends Controller {
+// [Conceito POO: Herança - VeiculoController herda funcionalidades da classe base Controller] [cite: 3477]
+    class VeiculoController extends Controller {
 
-    private Veiculo $model;
+    // Altere a injeção para o objeto ser de Repository, não de Entity (Veiculo)
+    private \Core\Repositorio $model; 
 
-    [cite_start]// [Conceito POO: Injeção de Dependência/Associação - O Controller 'usa' o Model, que pode ser instanciado no construtor] [cite: 2593, 2607]
     public function __construct() {
-        // Como Veiculo implementa Repositorio, ele é o próprio "Repositório de Veículos"
-        $this->model = new Veiculo('', '', 0, 0.0, ''); 
+        $this->model = new Veiculo('Repo', 'Base', 2000, 1.00, 'Nenhuma', 0);
     }
+
 
     // Rota: /veiculo/index (Listar todos)
     public function index(): void {
@@ -49,9 +49,10 @@ class VeiculoController extends Controller {
             $ano = filter_input(INPUT_POST, 'ano', FILTER_VALIDATE_INT);
             $preco = filter_input(INPUT_POST, 'preco', FILTER_VALIDATE_FLOAT);
             $cor = filter_input(INPUT_POST, 'cor', FILTER_SANITIZE_STRING);
+            $quilometragem = filter_input(INPUT_POST, 'quilometragem', FILTER_VALIDATE_INT);
             
             // Cria um novo objeto Veiculo com os dados validados
-            $veiculo = new Veiculo($marca, $modelo, $ano, $preco, $cor, $id);
+            $veiculo = new Veiculo($marca, $modelo, $ano, $preco, $cor, $quilometragem, $id);
             
             if ($this->model->salvar($veiculo)) {
                 $this->model->registrarLog("Veículo ID: {$veiculo->getId()} salvo com sucesso.");
