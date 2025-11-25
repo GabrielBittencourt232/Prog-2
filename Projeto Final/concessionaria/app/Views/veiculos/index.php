@@ -12,7 +12,7 @@
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Marca</th>
+                <th class="text-center">Placa</th> <th>Marca</th>
                 <th>Modelo</th>
                 <th>Ano</th>
                 <th>Preço</th>
@@ -24,7 +24,9 @@
             <?php foreach ($veiculos as $veiculo): ?>
                 <tr>
                     <td><?= $veiculo->id ?></td>
-                    <td><?= $veiculo->marca ?></td>
+                    <td class="text-center">
+                        <strong><?= $veiculo->placa ?></strong>
+                    </td> <td><?= $veiculo->marca ?></td>
                     <td><?= $veiculo->modelo ?></td>
                     <td><?= $veiculo->ano ?></td>
                     <td>R$ <?= number_format($veiculo->preco, 2, ',', '.') ?></td>

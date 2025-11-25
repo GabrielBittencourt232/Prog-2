@@ -10,7 +10,7 @@ use Exception;
     private \Core\Repositorio $model; 
 
     public function __construct() {
-        $this->model = new Veiculo('Repo', 'Base', 2000, 1.00, 'Nenhuma', 0);
+        $this->model = new Veiculo('Repo', 'Base', 2000, 1.00, 'Nenhuma', 0, 'ABC-1234');
     }
 
 
@@ -50,9 +50,10 @@ use Exception;
             $preco = filter_input(INPUT_POST, 'preco', FILTER_VALIDATE_FLOAT);
             $cor = filter_input(INPUT_POST, 'cor', FILTER_SANITIZE_STRING);
             $quilometragem = filter_input(INPUT_POST, 'quilometragem', FILTER_VALIDATE_INT);
+            $placa = filter_input(INPUT_POST, 'placa', FILTER_SANITIZE_STRING);
             
             // Cria um novo objeto Veiculo com os dados validados
-            $veiculo = new Veiculo($marca, $modelo, $ano, $preco, $cor, $quilometragem, $id);
+            $veiculo = new Veiculo($marca, $modelo, $ano, $preco, $cor, $quilometragem, $placa, $id);
             
             if ($this->model->salvar($veiculo)) {
                 $this->model->registrarLog("Veículo ID: {$veiculo->getId()} salvo com sucesso.");

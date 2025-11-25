@@ -1,2 +1,0 @@
-ALTER TABLE veiculos
-ADD COLUMN quilometragem INT NOT NULL DEFAULT 0;

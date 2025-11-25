@@ -20,7 +20,7 @@ $url = trim($url, '/'); // Remove barras no início/fim
 
 // Define o Controller, Método e Parâmetros
 $segments = explode('/', $url);
-$controllerName = !empty($segments[0]) ? ucfirst($segments[0]) . 'Controller' : 'VeiculoController';
+$controllerName = !empty($segments[0]) ? ucfirst($segments[0]) . 'Controller' : 'HomeController';
 $methodName = $segments[1] ?? 'index';
 $param = $segments[2] ?? null;
 

@@ -60,6 +60,14 @@ $title = $isEdit ? "Editar Veículo (ID: {$veiculo->getId()})" : "Novo Veículo"
                required>
     </div>
 
+    <div class="mb-3">
+        <label for="placa" class="form-label">Placa:</label>
+        <input type="text" id="placa" name="placa" 
+               class="form-control" 
+               value="<?= $isEdit ? $veiculo->getPlaca() : '' ?>" 
+               required>
+    </div>
+
     <div class="d-flex justify-content-between mt-4">
         <button type="submit" class="btn btn-primary btn-lg">
             Salvar Veículo

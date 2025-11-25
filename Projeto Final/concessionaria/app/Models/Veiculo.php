@@ -4,8 +4,9 @@ use Core\Conexao;
 use Core\Repositorio;
 use Core\LoggerTrait;
 use Exception;
-use PDO;             // <--- ADICIONE ESTA LINHA
-use PDOException;    // <--- ADICIONE ESTA LINHA
+use PDO;             
+use PDOException;
+use Models\IdentificadorVeicular;    
 
 // [Utilização das aulas: Herança, Interfaces e Traits]
 class Veiculo implements Repositorio {
@@ -19,9 +20,10 @@ class Veiculo implements Repositorio {
     private float $preco;
     private string $cor;
     private int $quilometragem;
+    private IdentificadorVeicular $identificador; // Atributo com composição
 
    // [Conceito POO: Construtor - Inicializa o objeto Veiculo e garante um estado inicial válido] [cite: 2187, 2219]
-    public function __construct(string $marca, string $modelo, int $ano, float $preco, string $cor, int $quilometragem, ?int $id = null) {
+    public function __construct(string $marca, string $modelo, int $ano, float $preco, string $cor, int $quilometragem, string $placa, ?int $id = null) {
         $this->id = $id;
         $this->setMarca($marca);
         $this->setModelo($modelo);
@@ -29,6 +31,9 @@ class Veiculo implements Repositorio {
         $this->setPreco($preco);
         $this->setCor($cor);
         $this->setQuilometragem($quilometragem);
+
+        $this->identificador = new IdentificadorVeicular($placa); // Composição ocorre aqui
+
         $this->registrarLog("Novo objeto Veiculo instanciado.");
     }
     
@@ -41,6 +46,9 @@ class Veiculo implements Repositorio {
     public function getPreco(): float { return $this->preco; }
     public function getCor(): string { return $this->cor; }
     public function getQuilometragem(): int { return $this->quilometragem; }
+    public function getPlaca(): string { return $this->identificador->getPlaca(); }
+   
+    public function __destruct() { error_log("[COMPOSIÇÃO] Veículo {$this->getModelo()} destruído."); } // Método destrutor, quando Veículo é destruído/removido, o objeto Identificador é liberado, garantindo que o __destruct do componente seja chamado
 
     // --- Setters (Modificadores) com Validação ---
    // [Conceito POO: Setters - Permitem modificação dos atributos privados com validação] [cite: 2324, 2328]
@@ -78,10 +86,10 @@ class Veiculo implements Repositorio {
         
         // Verifica se é UPDATE ou INSERT
         if ($obj->getId() !== null) {
-            $sql = "UPDATE veiculos SET marca = :marca, modelo = :modelo, ano = :ano, preco = :preco, cor = :cor, quilometragem = :km WHERE id = :id";
+            $sql = "UPDATE veiculos SET marca = :marca, modelo = :modelo, ano = :ano, preco = :preco, cor = :cor, quilometragem = :km, placa = :placa WHERE id = :id";
             $this->registrarLog("Atualizando veículo ID: {$obj->getId()}");
         } else {
-            $sql = "INSERT INTO veiculos (marca, modelo, ano, preco, cor, quilometragem) VALUES (:marca, :modelo, :ano, :preco, :cor, :km)";
+            $sql = "INSERT INTO veiculos (marca, modelo, ano, preco, cor, quilometragem, placa) VALUES (:marca, :modelo, :ano, :preco, :cor, :km, :placa)";
             $this->registrarLog("Criando novo veículo.");
         }
 
@@ -94,6 +102,7 @@ class Veiculo implements Repositorio {
             $stmt->bindValue(':preco', $obj->getPreco());
             $stmt->bindValue(':cor', $obj->getCor());
             $stmt->bindValue(':km', $obj->getQuilometragem());
+            $stmt->bindValue(':placa', $obj->getPlaca());
             
             if ($obj->getId() !== null) {
                 $stmt->bindValue(':id', $obj->getId(), PDO::PARAM_INT);
@@ -149,6 +158,7 @@ class Veiculo implements Repositorio {
                     $veiculoData->preco,
                     $veiculoData->cor,
                     $veiculoData->quilometragem,
+                    $veiculoData->placa,
                     $veiculoData->id
                 );
             }
